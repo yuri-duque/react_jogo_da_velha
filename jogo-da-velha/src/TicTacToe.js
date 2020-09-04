@@ -5,8 +5,11 @@ function TicTacToe() {
   const emptyBoard = Array(9).fill("");
   const [board, setBoard] = useState(emptyBoard);
   const [currentPlayer, setCurrentPlayer] = useState("O");
+  const [winner, setWinner] = useState();
 
   const handleCellClick = (index) => {
+    if (winner) return null;
+
     if (board[index] !== "") return null;
 
     const newBoard = board.map((item, itemIndex) => itemIndex === index ? currentPlayer : item);
@@ -31,9 +34,9 @@ function TicTacToe() {
     ];
 
     possibleWatsToWin.forEach(cells => {
-      if(cells.every(cell => cell === "X")) console.log("X venceu");
+      if(cells.every(cell => cell === "X")) setWinner("X");
 
-      else if(cells.every(cell => cell === "O")) console.log("O venceu");
+      else if(cells.every(cell => cell === "O")) setWinner("O");
     })
   }
 
@@ -43,7 +46,7 @@ function TicTacToe() {
     <main>
       <h1 className="title">JOGO DA VELHA</h1>
 
-      <div className="board">
+      <div className={`board ${winner ? "game-over" : ""}`}>
 
         {board.map((item, index) => (
           <div key={index} className={`cell ${item}`} onClick={() => handleCellClick(index)}>
