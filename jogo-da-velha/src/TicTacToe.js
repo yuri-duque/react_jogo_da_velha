@@ -34,13 +34,19 @@ function TicTacToe() {
     ];
 
     possibleWatsToWin.forEach(cells => {
-      if(cells.every(cell => cell === "X")) setWinner("X");
+      if (cells.every(cell => cell === "X")) setWinner("X");
 
-      else if(cells.every(cell => cell === "O")) setWinner("O");
+      else if (cells.every(cell => cell === "O")) setWinner("O");
     })
   }
 
   useEffect(checkWinner, [board]);
+
+  const resetGame = () => {
+    setCurrentPlayer("");
+    setBoard(emptyBoard);
+    setWinner(null);
+  }
 
   return (
     <main>
@@ -55,6 +61,16 @@ function TicTacToe() {
         ))}
 
       </div>
+
+      {winner &&
+        <footer>
+          <h2 className="winner-message">
+            <span className={winner}>{winner}</span> venceu!
+        </h2>
+
+        <button onClick={resetGame}>Recomeçar jogo!</button>
+        </footer>
+      }
     </main>
   );
 }
