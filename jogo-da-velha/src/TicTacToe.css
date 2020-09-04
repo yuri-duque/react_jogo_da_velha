@@ -33,6 +33,10 @@ body{
   gap: 1rem;
 }
 
+.board.game-over{
+  opacity: 0.5;
+}
+
 .cell{
   display: grid;
   align-items: center;
@@ -51,7 +55,7 @@ body{
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
-.cell.O, .cell.X{
+.cell.O, .cell.X, .game-over .cell{
   cursor: not-allowed;
 }
 
