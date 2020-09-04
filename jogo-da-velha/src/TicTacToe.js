@@ -5,13 +5,16 @@ function TicTacToe() {
   const emptyBoard = Array(9).fill("");
   const [board, setBoard] = useState(emptyBoard);
   const [currentPlayer, setCurrentPlayer] = useState("O");
-  const [winner, setWinner] = useState();
+  const [winner, setWinner] = useState(null);
 
   const handleCellClick = (index) => {
+    // verifica se há ganhador para impossibilitar novo clique
     if (winner) return null;
 
+    // verifica se a celula clicada estava vazia
     if (board[index] !== "") return null;
-
+    
+    // seta a celula clicada na board
     const newBoard = board.map((item, itemIndex) => itemIndex === index ? currentPlayer : item);
     setBoard(newBoard);
 
@@ -34,13 +37,23 @@ function TicTacToe() {
     ];
 
     possibleWatsToWin.forEach(cells => {
-      if (cells.every(cell => cell === "X")) setWinner("X");
+      if (cells.every(cell => cell === "X")) setWinner("X venceu!");
 
-      else if (cells.every(cell => cell === "O")) setWinner("O");
+      else if (cells.every(cell => cell === "O")) setWinner("O venceu!");
     })
+
+    checkDraw();
   }
 
   useEffect(checkWinner, [board]);
+
+  const checkDraw = () => {
+    // "board.every" verifica se para todos os itens a condiçao é verdadeira 
+    if(board.every(item => item !== "") && !winner){
+      // empate
+      setWinner("Empatou!");
+    }
+  }
 
   const resetGame = () => {
     setCurrentPlayer("");
@@ -65,7 +78,7 @@ function TicTacToe() {
       {winner &&
         <footer>
           <h2 className="winner-message">
-            <span className={winner}>{winner}</span> venceu!
+            <span className={winner}>{winner}</span>
         </h2>
 
         <button onClick={resetGame}>Recomeçar jogo!</button>
